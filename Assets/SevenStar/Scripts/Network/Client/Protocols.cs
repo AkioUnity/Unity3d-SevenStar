@@ -4,16 +4,16 @@ using UnityEngine;
 public enum Protocols
 {
     //UserInfo
-    Login = 1000,
-    UserRegister,
-    UserInfo,
+    Login = 1000,  //
+    UserRegister,//
+    UserInfo,//
 
     //RoomInfo
-    RoomCount,
-    RoomData,
-    RoomCreate,
-    RoomIn,
-    RoomOut,
+    RoomCount,//
+    RoomData,//
+    RoomCreate,//
+    RoomIn,//
+    RoomOut,//
 
     //Game
     RoomPlayerList,//방에 들어가서 모든 사용자의 목록
@@ -79,10 +79,22 @@ public class Protocol
         {
             case "login":
                 return Protocols.Login;
+            case "logout":
+                return Protocols.LogOut;
             case "userinfo":
                 return Protocols.UserInfo;
             case "userregister":
                 return Protocols.UserRegister;
+            case "createroom":
+                return Protocols.RoomCreate;
+            case "roomidxlist":
+                return Protocols.RoomCount;
+            case "roominfo":
+                return Protocols.RoomData;
+            case "roomin":
+                return Protocols.RoomIn;
+            case "roomout":
+                return Protocols.RoomOut;
             default:
                 Debug.LogError("not protocol:"+name);
                 return Protocols.Login;
@@ -97,11 +109,29 @@ public class Protocol
             case Protocols.Login:
                 str= "login";
                 break;
+            case Protocols.LogOut:
+                str= "logout";
+                break;
             case Protocols.UserInfo:
                 str= "userinfo";
                 break;
             case Protocols.UserRegister:
                 str= "userregister";
+                break;
+            case Protocols.RoomCreate:
+                str= "createroom";
+                break;
+            case Protocols.RoomCount:
+                str= "roomidxlist";
+                break;
+            case Protocols.RoomData:
+                str= "roominfo";
+                break;
+            case Protocols.RoomIn:
+                str= "roomin";
+                break;
+            case Protocols.RoomOut:
+                str= "roomout";
                 break;
             default:
                 Debug.LogError("not protocol:"+value);

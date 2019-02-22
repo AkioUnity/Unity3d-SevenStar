@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public class ParserLobby : ParserBase
 {
@@ -15,6 +16,12 @@ public class ParserLobby : ParserBase
         public UserInfo reader;
         public UserInfo[] member;
     }
+    
+    public class RoomList
+    {
+        public int cou;
+        public int[] roomIds;
+    }
 
     public enum RoomInResult
     {
@@ -24,21 +31,26 @@ public class ParserLobby : ParserBase
         Fail_FullRoom,
         Fail_Error,
     }
+    
+    private Dictionary<string, string> dic = null;
 
     public RecvPacketObject Parser(Protocols protocol, byte[] data)
     {
+        string res=Encoding.UTF8.GetString (data);
+        dic = TinyXmlReader.DictionaryFromXMLString(res);
+        
         RecvPacketObject obj = new RecvPacketObject();
         obj.protocol = protocol;
         switch (protocol)
         {
             case Protocols.RoomCount:
-                obj.obj = RecvRoomCount(data);
+                obj.obj = RecvRoomCount();
                 break;
             case Protocols.RoomData:
-                obj.obj = RecvRoomData(data);
+                obj.obj = RecvRoomData();
                 break;
             case Protocols.RoomCreate:
-                obj.obj = RecvRoomCreate(data);
+                obj.obj = RecvRoomCreate();
                 break;
             case Protocols.RoomIn:
                 obj.obj = RecvRoomIn(data);
@@ -49,62 +61,86 @@ public class ParserLobby : ParserBase
         return obj;
     }
 
-    object RecvRoomCount(byte[] data)
+    object RecvRoomCount()
     {
-        int v = BitConverter.ToInt32(data, 0);
-        return v;
-    }
-
-    object RecvRoomData(byte[] data)
-    {
-        ByteDataParser p = new ByteDataParser();
-        p.Init(data);
-        if (p.GetInt() == 0)
-            return null;
-
-        RoomInfo_Robby info = new RoomInfo_Robby();
-        info.idx = p.GetInt();
-        info.name = p.GetString();
-        info.blindType = p.GetInt();
-        info.cou = p.GetInt();
-        info.memberCou = 0;
-        info.reader = null;
-        if (info.cou > 0)
+        RoomList list=new RoomList();
+        list.cou = Int32.Parse(dic["cou"]);
+        for (int i = 0; i < list.cou; i++)
         {
-            info.member = new UserInfo[info.cou];
-            for (int i = 0; i < info.cou; i++)
-            {
-                byte len = p.GetByte();
-                if (len > 0)
-                {
-                    UserInfo ui = new UserInfo();
-                    ui.SetDataBytes(data, p.pos);
-                    p.pos += len;
-                    info.member[i] = ui;
-                    info.memberCou++;
-                    if (info.reader == null)
-                        info.reader = ui;
-
-                }
-                else
-                {
-                    info.member[i] = null;
-                }
-            }
-
+            list.roomIds[i] = Int32.Parse(dic["room" + i.ToString()]);
         }
-        return info;
+        return list;
     }
 
-    object RecvRoomCreate(byte[] data)
+    object RecvRoomData()  //roominfo
     {
-        int v = BitConverter.ToInt32(data, 0);
+        if (dic.ContainsKey("roominfo"))
+        {
+            Debug.LogWarning(dic["roominfo"]);
+        }
+        if (dic.ContainsKey("name"))
+        {
+            Debug.LogWarning(dic["name"]);
+        }
+        if (dic.ContainsKey("seat"))
+        {
+            Debug.LogWarning(dic["seat"]);
+        }
+        if (dic.ContainsKey("user0"))
+        {
+            Debug.LogWarning(dic["user0"]);
+        }
+
+//        RoomInfo_Robby info = new RoomInfo_Robby();
+//        info.idx = p.GetInt();
+//        info.name = p.GetString();
+//        info.blindType = p.GetInt();
+//        info.cou = p.GetInt();
+//        info.memberCou = 0;
+//        info.reader = null;
+//        if (info.cou > 0)
+//        {
+//            info.member = new UserInfo[info.cou];
+//            for (int i = 0; i < info.cou; i++)
+//            {
+//                byte len = p.GetByte();
+//                if (len > 0)
+//                {
+//                    UserInfo ui = new UserInfo();
+//                    ui.SetDataBytes(data, p.pos);
+//                    p.pos += len;
+//                    info.member[i] = ui;
+//                    info.memberCou++;
+//                    if (info.reader == null)
+//                        info.reader = ui;
+//
+//                }
+//                else
+//                {
+//                    info.member[i] = null;
+//                }
+//            }
+//
+//        }
+//        return info;
+        return null;
+    }
+
+    object RecvRoomCreate()  //return roomID
+    {
+        int v = 0;
+        if (dic.ContainsKey("idx"))
+            v = Int32.Parse(dic["idx"]);
         return v;
     }
 
     object RecvRoomIn(byte[] data)
     {
-        int r = BitConverter.ToInt32(data, 0);
+        int r = 0;
+        if (dic.ContainsKey("idx"))
+        {
+            r = 0;
+        }
         switch (r)
         {
             case 0:
@@ -117,11 +153,11 @@ public class ParserLobby : ParserBase
         return RoomInResult.Fail_Error;
     }
 
-    static public bool GetRoomCount(RecvPacketObject obj, ref int Count)
+    static public bool GetRoomCount(RecvPacketObject obj, ref RoomList Count)
     {
         if (obj.protocol != Protocols.RoomCount)
             return false;
-        Count = (int)obj.obj;
+        Count = (RoomList)obj.obj;
         return true;
     }
 

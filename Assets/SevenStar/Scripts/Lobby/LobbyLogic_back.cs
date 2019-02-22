@@ -286,10 +286,11 @@ public class LobbyLogic_back : UtilHalfSingleton<LobbyLogic_back>
             yield return null;
         }
 
-        int roomcount = 0;
+        ParserLobby.RoomList roomcount = new ParserLobby.RoomList();
+        roomcount.cou = 0;
         ParserLobby.GetRoomCount(obj, ref roomcount);
         // Clear rooms if room count zero
-        if (roomcount == 0)
+        if (roomcount.cou == 0)
         {
             for (int j = 0; j < m_RoomList.Count; j++)
                 Destroy(m_RoomList[j].gameObject);
@@ -311,11 +312,11 @@ public class LobbyLogic_back : UtilHalfSingleton<LobbyLogic_back>
             m_IsOldViewRoom6R = isViewRoom6R;
         }
 
-        int[] roomIdxArr = new int[roomcount];
+        int[] roomIdxArr = new int[roomcount.cou];
 
-        for (int i = 0; i < roomcount; i++)
+        for (int i = 0; i < roomcount.cou; i++)
         {
-            m_Client.SendGetRoomInfo(blindType, i);
+            m_Client.SendGetRoomInfo(blindType, roomcount.roomIds[i]);
 
             obj = null;
             while (obj == null)

@@ -22,8 +22,8 @@ public class UserInfoSet : MonoBehaviour {
     private void OnEnable()
     {
         TexasHoldemClient c = TexasHoldemClient.Instance;
-        c.SendGetUserInfo(m_UserIndex);
-        c.SendGetBankMoney();
+//        c.SendGetUserInfo(m_UserIndex);
+//        c.SendGetBankMoney();
     }
 
     public int UserIndex

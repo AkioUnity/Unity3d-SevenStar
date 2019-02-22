@@ -101,6 +101,12 @@ public class ClientBase
         return true;
     }
 
+    public bool SendStr(Protocols protocol, string str)
+    {
+        byte[] data = Encoding.UTF8.GetBytes(str);
+        return Send(protocol, data);
+    }
+    
     public bool Send(Protocols protocol, byte[] data)
     {
         string sendStr = Protocol.GetName(protocol);

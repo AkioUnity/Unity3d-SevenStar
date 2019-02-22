@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\akio\.Rider2018.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\akio\.Rider2018.2\system\resharper-host\local\Transient\ReSharperHost\v182\SolutionCaches\_Unity3d-SevenStar.-1095130006.00" t="ExcludeRecursive" />
+    <e p="E:\work\temp\Unity3d-SevenStar" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Editor" t="Include">
+          <e p="AnchorToolEditor.cs" t="Include" />
+        </e>
+        <e p="Example" t="Include">
+          <e p="EchoTest.cs" t="Include" />
+        </e>
+        <e p="GaussianBlur" t="Include">
+          <e p="FPSDisplay.cs" t="Include" />
+          <e p="GaussianBlur_LiveBlur" t="Include">
+            <e p="Demo" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="AlwaysFace.cs" t="Include" />
+                <e p="DemoSliderControl.cs" t="Include" />
+                <e p="Rotate.cs" t="Include" />
+                <e p="SyncCoordinates.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Resources" t="Include">
+              <e p="GaussianBlur_LiveBlur.shader" t="Include" />
+              <e p="GaussianBlur_LiveBlur_NoSmear.shader" t="Include" />
+            </e>
+          </e>
+          <e p="GaussianBlur_Mobile" t="Include">
+            <e p="Demo" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="AddTorqueOnStart.cs" t="Include" />
+                <e p="AlwaysFace.cs" t="Include" />
+                <e p="DemoSliderControl.cs" t="Include" />
+                <e p="Move.cs" t="Include" />
+                <e p="PausePlay.cs" t="Include" />
+                <e p="Rotate.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Resources" t="Include">
+              <e p="DropShadow_Mobile.shader" t="Include" />
+              <e p="GaussianBlur_Mobile(hidden).shader" t="Include" />
+              <e p="GaussianBlur_Mobile.shader" t="Include" />
+              <e p="GaussianBlur_Mobile_ScreenSpaceCamera.shader" t="Include" />
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="BlurRenderer.cs" t="Include" />
+              <e p="BlurRenderer_Mobile.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Plugins" t="Include">
+          <e p="Android" t="Include">
+            <e p="AndroidManifest.xml" t="Include" />
+          </e>
+          <e p="WebSocket.cs" t="Include" />
+        </e>
+        <e p="SevenStar" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="AlertPanel.cs" t="Include" />
+            <e p="AvataMgr.cs" t="Include" />
+            <e p="BettingButtons.cs" t="Include" />
+            <e p="BettingMoneyEff.cs" t="Include" />
+            <e p="BettingTimer.cs" t="Include" />
+            <e p="BoxAni.cs" t="Include" />
+            <e p="CardData.cs" t="Include" />
+            <e p="CardData_Design.cs" t="Include" />
+            <e p="CardMgr.cs" t="Include" />
+            <e p="CardObject.cs" t="Include" />
+            <e p="CommunityCard.cs" t="Include" />
+            <e p="GamePlayerInfo.cs" t="Include" />
+            <e p="Lobby" t="Include">
+              <e p="AvataHolderSize.cs" t="Include" />
+              <e p="AvataItem.cs" t="Include" />
+              <e p="LobbyBottom.cs" t="Include" />
+              <e p="LobbyBottomBtnAction.cs" t="Include" />
+              <e p="LobbyLogic.cs" t="Include" />
+              <e p="LobbyLogic_back.cs" t="Include" />
+              <e p="LobbyPanels.cs" t="Include" />
+              <e p="LobbyRoomData.cs" t="Include" />
+              <e p="MessageBox.cs" t="Include" />
+              <e p="MessageBoxItem.cs" t="Include" />
+              <e p="MessageBoxRecvPanel.cs" t="Include" />
+              <e p="MyPoint.cs" t="Include" />
+              <e p="ProfileProc.cs" t="Include" />
+              <e p="RoomPanel.cs" t="Include" />
+              <e p="RoomPanelContainer.cs" t="Include" />
+              <e p="ScrollSnapRect.cs" t="Include" />
+              <e p="WithdrawalProc.cs" t="Include" />
+            </e>
+            <e p="Network" t="Include">
+              <e p="Client" t="Include">
+                <e p="ByteDataMaker.cs" t="Include" />
+                <e p="ClientBase.cs" t="Include" />
+                <e p="Game_Client.cs" t="Include" />
+                <e p="Game_ClientAction.cs" t="Include" />
+                <e p="Parser" t="Include">
+                  <e p="ParserBase.cs" t="Include" />
+                  <e p="ParserGame.cs" t="Include" />
+                  <e p="ParserLobby.cs" t="Include" />
+                  <e p="ParserUserInfo.cs" t="Include" />
+                </e>
+                <e p="Protocols.cs" t="Include" />
+                <e p="TexasHoldemClient.ClientFunc.cs" t="Include" />
+                <e p="TexasHoldemClient.cs" t="Include" />
+                <e p="UserInfo.cs" t="Include" />
+                <e p="UserMgr.cs" t="Include" />
+              </e>
+              <e p="ClientObject.cs" t="Include" />
+            </e>
+            <e p="PlaneAni.cs" t="Include" />
+            <e p="ResultPanel.cs" t="Include" />
+            <e p="SevenStarLogic.cs" t="Include" />
+            <e p="SevenStarPlayerMgr.cs" t="Include" />
+            <e p="SevenStarPlayMgr.cs" t="Include" />
+            <e p="SoundMgr.cs" t="Include" />
+            <e p="Title" t="Include">
+              <e p="InputFieldCheckMark.cs" t="Include" />
+              <e p="Intro.cs" t="Include" />
+              <e p="LoginProc.cs" t="Include" />
+              <e p="LoginSession.cs" t="Include" />
+              <e p="ProcDot.cs" t="Include" />
+              <e p="SevenStarTitle.cs" t="Include" />
+              <e p="SignUpProc.cs" t="Include" />
+            </e>
+            <e p="TransformMoney.cs" t="Include" />
+            <e p="UnityUtil" t="Include">
+              <e p="UtilFunc.cs" t="Include" />
+              <e p="UtilSingleton.cs" t="Include" />
+            </e>
+            <e p="UserBlindIcon.cs" t="Include" />
+            <e p="UserInfoSet.cs" t="Include" />
+            <e p="UserSeat.cs" t="Include" />
+            <e p="WebSocket" t="Include">
+              <e p="TinyXmlReader.cs" t="Include" />
+              <e p="Ws.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+      <e p="Unity3d-SevenStar.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

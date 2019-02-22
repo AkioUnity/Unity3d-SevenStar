@@ -31,16 +31,14 @@ public partial class TexasHoldemClient
 
     public void SendCreateRoom(string roomName, int blindType)
     {
-        ByteDataMaker d = new ByteDataMaker();
-        d.Init(500);
-        d.Add(roomName);
-        d.Add(blindType);
-        Send(Protocols.RoomCreate, d.GetBytes());
+        string str = TinyXmlReader.GetString("roomname", roomName, "blindtype", blindType.ToString());
+        SendStr(Protocols.RoomCreate, str);
     }
 
     public void SendGetRoomCount(int BlindType)
     {
-        Send_int(Protocols.RoomCount, BlindType);
+        string str = TinyXmlReader.GetString("blindtype", BlindType.ToString());
+        SendStr(Protocols.RoomCount, str);
     }
     /*public void SendGetRoomInfo(bool IsIndex, int n)
     {
@@ -56,12 +54,8 @@ public partial class TexasHoldemClient
 
     public void SendGetRoomInfo(int blindType, int n)
     {
-        ByteDataMaker d = new ByteDataMaker();
-        d.Init(20);
-        d.Add((byte)0);
-        d.Add(blindType);
-        d.Add(n);
-        Send(Protocols.RoomData, d.GetBytes());
+        string str = TinyXmlReader.GetString("idx", n.ToString());
+        SendStr(Protocols.RoomData, str);
     }
 
     public void SendGetRoomInfoIndex(int RoomIndex)
@@ -75,12 +69,14 @@ public partial class TexasHoldemClient
 
     public void SendInRoom(int roomIdx)
     {
-        Send_int(Protocols.RoomIn, roomIdx);
+        string str = TinyXmlReader.GetString("idx", roomIdx.ToString());
+        SendStr(Protocols.RoomIn, str);
     }
 
     public void SendOutRoom()
     {
-        Send(Protocols.RoomOut, new byte[0]);
+        string str = "";
+        SendStr(Protocols.RoomOut, str);
     }
 
     public void SendBetting(UInt64 money)
@@ -221,7 +217,7 @@ public partial class TexasHoldemClient
     }
     public void SendLogOut()
     {
-        Send_int(Protocols.LogOut, 0);
+        Send_int(Protocols.LogOut, ClientObject.Instance.m_UserIdx);
     }
 
 }

@@ -52,6 +52,7 @@ public class ParserUserInfo : ParserBase
     {
         string res=Encoding.UTF8.GetString (data);
         dic = TinyXmlReader.DictionaryFromXMLString(res);
+        
         RecvPacketObject obj = new RecvPacketObject();
         obj.protocol = protocol;
         switch (protocol)
@@ -106,7 +107,19 @@ public class ParserUserInfo : ParserBase
         int Result = -2;
         if (dic.ContainsKey("useridx"))
             Result = Int32.Parse(dic["useridx"]);
-        Debug.Log(Result);
+        else
+        {
+            string res = dic["result"];
+            if (res == "idpass failed")
+                Result = -1;
+            else if (res == "overlap")
+                Result = -2;
+            else
+            {
+                Debug.LogError(res);
+            }
+        }
+//        Debug.Log(Result);
         return Result;
     }
 
