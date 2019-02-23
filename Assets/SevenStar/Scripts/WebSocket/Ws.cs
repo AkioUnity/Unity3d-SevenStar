@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -10,12 +11,16 @@ public class Ws : MonoBehaviour
 
     public static WebSocket ws;
 
-//    public string reply = null;
+    private Queue<string> sendQueue;
+
+    int queueCn;
     
     private void Awake()
     {
         Instance = this;
         ws=new WebSocket(new Uri("ws://211.238.13.182:18080"));
+        sendQueue=new Queue<string>();
+        queueCn = 0;
     }
     
     private IEnumerator Start()
@@ -47,17 +52,28 @@ public class Ws : MonoBehaviour
     
     public void Send(string res)
     {
-        Debug.Log("Send: " + res);
 //        reply = null;
-        ws.SendString(res);
+        Debug.Log("Send:"+queueCn+":"+res);
+        if (queueCn == 0)
+        {
+            ws.SendString(res);
+        }
+        else
+        {
+            sendQueue.Enqueue(res);
+        }
+        queueCn++;
     }
     public void Receive(string res)
     {
-        Debug.Log("Received: " + res);
+        Debug.Log("Received:"+queueCn+":"+ res);
+        queueCn--;
         TexasHoldemClient c = TexasHoldemClient.Instance;
         res = "<xml>" + res + "</xml>";
         string protocol = TinyXmlReader.GetProtocol(res);
         c.AddRecvData((int)Protocol.GetValue(protocol),Encoding.UTF8.GetBytes (res));
+        if (queueCn>0)
+            ws.SendString(sendQueue.Dequeue());
 //        reply = res;
     }
 }

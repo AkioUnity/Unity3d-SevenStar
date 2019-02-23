@@ -16,7 +16,7 @@ public enum Protocols
     RoomOut,//
 
     //Game
-    RoomPlayerList,//방에 들어가서 모든 사용자의 목록
+    RoomPlayerList,//방에 들어가서 모든 사용자의 목록   ->RoomData
     RoomInPlayer,//방에 새로들어온 사용자(RoomIn과 구분이 필요해졌음)
     RoomOutPlayer,//방에서 나간 사용자(RoomOut과 구분이 필요해졌음)
     RoomReady,//게임준비 알림

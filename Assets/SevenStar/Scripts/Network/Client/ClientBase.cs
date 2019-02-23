@@ -113,8 +113,7 @@ public class ClientBase
         if (sendStr == "noProtocol")
             return false;
         sendStr=sendStr+Encoding.UTF8.GetString(data);
-        Debug.Log(sendStr);
-        Ws.ws.SendString(sendStr);
+        Ws.Instance.Send(sendStr);
         return true;
     }
 

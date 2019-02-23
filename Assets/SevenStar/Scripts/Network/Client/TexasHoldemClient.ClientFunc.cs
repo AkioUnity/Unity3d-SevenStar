@@ -52,19 +52,10 @@ public partial class TexasHoldemClient
         Send(Protocols.RoomData, d.GetBytes());
     }*/
 
-    public void SendGetRoomInfo(int blindType, int n)
+    public void SendGetRoomInfo(int n)
     {
         string str = TinyXmlReader.GetString("idx", n.ToString());
         SendStr(Protocols.RoomData, str);
-    }
-
-    public void SendGetRoomInfoIndex(int RoomIndex)
-    {
-        ByteDataMaker d = new ByteDataMaker();
-        d.Init(20);
-        d.Add((byte)1);
-        d.Add(RoomIndex);
-        Send(Protocols.RoomData, d.GetBytes());
     }
 
     public void SendInRoom(int roomIdx)

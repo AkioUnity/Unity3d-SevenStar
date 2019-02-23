@@ -9,7 +9,7 @@ public class EchoTest : MonoBehaviour {
 		Debug.Log("start");
 		yield return StartCoroutine(ws.Connect());
 		Debug.Log("connect");
-		ws.SendString("<protocol>userinfo</protocol><useridx>1</useridx>");
+		ws.SendString("<protocol>roomidxlist</protocol><blindtype>1</blindtype>");
 		int i=0;
 		while (true)
 		{
@@ -19,10 +19,10 @@ public class EchoTest : MonoBehaviour {
 			{
 				Debug.Log ("Received: "+reply);
 				i++;
-				if (i==1)
-					ws.SendString("<protocol>login</protocol><id>t1</id><pass>a</pass>");
-				if (i==2)
-					ws.SendString("<protocol>userinfo</protocol><useridx>2</useridx>");
+//				if (i==1)
+//					ws.SendString("<protocol>login</protocol><id>t1</id><pass>a</pass>");
+//				if (i==2)
+//					ws.SendString("<protocol>userinfo</protocol><useridx>2</useridx>");
 			}
 			if (ws.error != null)
 			{

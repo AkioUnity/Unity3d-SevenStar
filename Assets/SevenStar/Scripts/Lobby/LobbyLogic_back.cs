@@ -316,7 +316,7 @@ public class LobbyLogic_back : UtilHalfSingleton<LobbyLogic_back>
 
         for (int i = 0; i < roomcount.cou; i++)
         {
-            m_Client.SendGetRoomInfo(blindType, roomcount.roomIds[i]);
+            m_Client.SendGetRoomInfo(roomcount.roomIds[i]);
 
             obj = null;
             while (obj == null)

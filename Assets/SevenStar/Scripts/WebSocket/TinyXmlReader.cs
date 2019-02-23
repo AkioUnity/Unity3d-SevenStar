@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
@@ -118,29 +119,7 @@ public class TinyXmlReader
 				int startOfCloseTag = IndexOf("<", idx);
 				if (startOfCloseTag == -1)
 					return false;
-				
-				// Check that the startOfCloseTag is not actually the start of a tag containing CDATA
-				if (xmlString.Substring(startOfCloseTag, 9) == "<![CDATA[")
-				{
-					int startOfCDATA = startOfCloseTag;
-					int endOfCDATA = IndexOf("]]>", startOfCDATA + 9);
-					startOfCloseTag = IndexOf("<", endOfCDATA + 3);
-
-					if (endOfCDATA == -1)
-						return false;
-
-					string CDATAContent = xmlString.Substring(startOfCDATA + 9, endOfCDATA - (startOfCDATA + 9));
-					string preContent = xmlString.Substring(idx + 1, startOfCDATA - (idx + 1));
-					string postContent = xmlString.Substring(endOfCDATA + 3, startOfCloseTag - (endOfCDATA + 3));
-
-					content = preContent + CDATAContent + postContent;
-					
-					idx = startOfCloseTag;
-				}
-				else
-				{
-					content = xmlString.Substring(idx + 1, startOfCloseTag - idx - 1);
-				}
+				content = xmlString.Substring(idx + 1, startOfCloseTag - idx - 1);
 
 				break;
 			case TagType.COMMENT:
@@ -192,6 +171,8 @@ public class TinyXmlReader
 		int depth = -1;
 		
 		// While still reading valid data
+		string[] tag = new string[10];
+		string curTag = "";
 		while (xmlreader.Read())
 		{
 			
@@ -200,18 +181,22 @@ public class TinyXmlReader
 			else if (xmlreader.tagType == TinyXmlReader.TagType.CLOSING)
 				--depth;
 			
-			// Useful data is found at depth level 1
-			if ((depth == 1) && (xmlreader.tagType == TinyXmlReader.TagType.OPENING))
+			if ((depth >0) && (xmlreader.tagType == TinyXmlReader.TagType.OPENING))
 			{
-				if( !data.ContainsKey(xmlreader.tagName) )
+				if (xmlreader.content != "")
 				{
-					data.Add(xmlreader.tagName, xmlreader.content);
+					curTag = tag[depth-1]+xmlreader.tagName;
+					if( !data.ContainsKey(curTag) )
+					{
+						data.Add(curTag, xmlreader.content);
+					}
+					else
+					{
+						Debug.LogWarning("Data already contained key " + curTag + " with value "+ data[ curTag ] +". Replacing value " + xmlreader.content);
+						data[ curTag ] = xmlreader.content;
+					}	
 				}
-				else
-				{
-					Debug.LogWarning("Data already contained key " + xmlreader.tagName + " with value "+ data[ xmlreader.tagName ] +". Replacing value " + xmlreader.content);
-					data[ xmlreader.tagName ] = xmlreader.content;
-				}
+				tag[depth] = xmlreader.tagName+"-";
 			}
 		}
 

@@ -65,6 +65,7 @@ public class ParserLobby : ParserBase
     {
         RoomList list=new RoomList();
         list.cou = Int32.Parse(dic["cou"]);
+        list.roomIds = new int[list.cou];
         for (int i = 0; i < list.cou; i++)
         {
             list.roomIds[i] = Int32.Parse(dic["room" + i.ToString()]);
@@ -78,17 +79,17 @@ public class ParserLobby : ParserBase
         {
             Debug.LogWarning(dic["roominfo"]);
         }
-        if (dic.ContainsKey("name"))
+        if (dic.ContainsKey("roominfo-name"))
         {
-            Debug.LogWarning(dic["name"]);
+            Debug.LogWarning(dic["roominfo-name"]);
         }
-        if (dic.ContainsKey("seat"))
+        if (dic.ContainsKey("user0-seat"))
         {
-            Debug.LogWarning(dic["seat"]);
+            Debug.LogWarning(dic["user0-seat"]);
         }
-        if (dic.ContainsKey("user0"))
+        if (dic.ContainsKey("user1-seat"))
         {
-            Debug.LogWarning(dic["user0"]);
+            Debug.LogWarning(dic["user1-seat"]);
         }
 
 //        RoomInfo_Robby info = new RoomInfo_Robby();

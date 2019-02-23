@@ -43,7 +43,7 @@ public class SevenStarPlayerMgr : MonoBehaviour
         }
         else
         {
-            TexasHoldemClient.Instance.Send_int(Protocols.RoomPlayerList, m_Logic.m_RoomIdx);
+            TexasHoldemClient.Instance.SendGetRoomInfo(m_Logic.m_RoomIdx);
         }
     }
 
@@ -51,100 +51,99 @@ public class SevenStarPlayerMgr : MonoBehaviour
     {
         TexasHoldemClient c = TexasHoldemClient.Instance;
         if (First)
-            c.Send_int(Protocols.RoomPlayerList, m_Logic.m_RoomIdx);
+            c.SendGetRoomInfo(m_Logic.m_RoomIdx);
         RecvPacketObject obj = null;
 
         int i, j;
         while (obj == null)
         {
-            obj = c.PopPacketObject(Protocols.RoomPlayerList);
+            obj = c.PopPacketObject(Protocols.RoomData);
             yield return null;
         }
 
-
-        List<int> UserList = null;
-        ParserGame.GetPlayerList(obj, ref UserList);
+        ParserLobby.RoomInfo_Robby UserList = null;
+        ParserLobby.GetRoomData(obj, ref UserList);
         if (UserList == null)
         {
             m_Logic.Client.SendOutRoom();
             SceneManager.LoadSceneAsync("2_Lobby");
             yield break;
         }
-        for (i = 0; i < UserList.Count; i++)
-        {
-            if (UserList[i] == -1)
-                continue;
-            c.SendGetUserInfo(UserList[i]);
-        }
-
-        if (First)  // 난입시 처음 세팅 - 바닥패, 사용자 베팅정보;;
-        {
-            // 바닥패;
-            c.Send_int(Protocols.GetOnCard, 0);
-            obj = null;
-            while (obj == null)
-            {
-                obj = c.PopPacketObject(Protocols.GetOnCard);
-                yield return null;
-            }
-            byte[] Card = new byte[5];
-            ParserGame.GetOnCard(obj, ref Card); // 바닥패 겟;
-            if (Card != null)
-            {
-                SevenStarPlayMgr playMgr = SevenStarLogic.Instance.m_SSPlayMgr;
-                for (int k = 0; k < 5; k++)
-                {
-                    if (Card[k] == 0)
-                        break;
-                    CardShapeType type = (CardShapeType)playMgr.GetCardType(Card[k]);
-                    int num = playMgr.GetCardNum(Card[k]);
-                    playMgr.m_CommunityCard.SetComCardInfo(k, type, num);
-                    playMgr.m_CommunityCard.OpenComCard(k);
-                    playMgr.m_CommunityCard.SetComCardToInitPos(k);
-                }
-            }
-        }
-        
-        int[] idxs = UserList.ToArray();
-        j = idxs.Length;
-
-        // check my idx
-        int playerCount = 0;
-        m_MyPlayerIdx = ClientObject.Instance.m_UserIdx;
-        for (i = 0; i < j; i++)
-        {
-            if (idxs[i] == m_MyPlayerIdx)
-                m_PlayerNum = i;
-            if (idxs[i] > -1)
-                playerCount++;
-        }
-
-        m_Logic.m_PlayerCount = 0;
-        int playerSeatNum = 0;
-        for (i = 0; i < j; i++)
-        {
-            // calculate player seat num
-            playerSeatNum = (m_Players.Length - m_PlayerNum + i) % m_Players.Length;
-
-            // Set user to player seat
-            m_Players[playerSeatNum].SetUserIndex(idxs[i]);
-            int num= idxs[i] == -1 ? -1 : i; ;
-            m_Players[playerSeatNum].SetNum(num);
-            m_Players[playerSeatNum].m_UserSeat.m_SeatNum = num;
-
-            // Set player self
-            if (idxs[i] == m_MyPlayerIdx)
-                m_PlayerSelf = m_Players[playerSeatNum];
-            if(idxs[i] != -1)
-                m_Logic.m_PlayerCount++;
-        }
-
-        // 난입시 플레이어 베팅 정보요청;
-        if (First)
-        {
-            c.SendPlayInfo(SevenStarLogic.Instance.m_RoomIdx);
-            m_Logic.Client.Send_int(Protocols.TestRoomInComplete, 0);
-        }
+//        for (i = 0; i < UserList.cou; i++)
+//        {
+//            if (UserList[i] == -1)
+//                continue;
+//            c.SendGetUserInfo(UserList[i]);
+//        }
+//
+//        if (First)  // 난입시 처음 세팅 - 바닥패, 사용자 베팅정보;;
+//        {
+//            // 바닥패;
+//            c.Send_int(Protocols.GetOnCard, 0);
+//            obj = null;
+//            while (obj == null)
+//            {
+//                obj = c.PopPacketObject(Protocols.GetOnCard);
+//                yield return null;
+//            }
+//            byte[] Card = new byte[5];
+//            ParserGame.GetOnCard(obj, ref Card); // 바닥패 겟;
+//            if (Card != null)
+//            {
+//                SevenStarPlayMgr playMgr = SevenStarLogic.Instance.m_SSPlayMgr;
+//                for (int k = 0; k < 5; k++)
+//                {
+//                    if (Card[k] == 0)
+//                        break;
+//                    CardShapeType type = (CardShapeType)playMgr.GetCardType(Card[k]);
+//                    int num = playMgr.GetCardNum(Card[k]);
+//                    playMgr.m_CommunityCard.SetComCardInfo(k, type, num);
+//                    playMgr.m_CommunityCard.OpenComCard(k);
+//                    playMgr.m_CommunityCard.SetComCardToInitPos(k);
+//                }
+//            }
+//        }
+//        
+//        int[] idxs = UserList.ToArray();
+//        j = idxs.Length;
+//
+//        // check my idx
+//        int playerCount = 0;
+//        m_MyPlayerIdx = ClientObject.Instance.m_UserIdx;
+//        for (i = 0; i < j; i++)
+//        {
+//            if (idxs[i] == m_MyPlayerIdx)
+//                m_PlayerNum = i;
+//            if (idxs[i] > -1)
+//                playerCount++;
+//        }
+//
+//        m_Logic.m_PlayerCount = 0;
+//        int playerSeatNum = 0;
+//        for (i = 0; i < j; i++)
+//        {
+//            // calculate player seat num
+//            playerSeatNum = (m_Players.Length - m_PlayerNum + i) % m_Players.Length;
+//
+//            // Set user to player seat
+//            m_Players[playerSeatNum].SetUserIndex(idxs[i]);
+//            int num= idxs[i] == -1 ? -1 : i; ;
+//            m_Players[playerSeatNum].SetNum(num);
+//            m_Players[playerSeatNum].m_UserSeat.m_SeatNum = num;
+//
+//            // Set player self
+//            if (idxs[i] == m_MyPlayerIdx)
+//                m_PlayerSelf = m_Players[playerSeatNum];
+//            if(idxs[i] != -1)
+//                m_Logic.m_PlayerCount++;
+//        }
+//
+//        // 난입시 플레이어 베팅 정보요청;
+//        if (First)
+//        {
+//            c.SendPlayInfo(SevenStarLogic.Instance.m_RoomIdx);
+//            m_Logic.Client.Send_int(Protocols.TestRoomInComplete, 0);
+//        }
         StartCoroutine(GetPlayerList(false));
         
     }
@@ -162,7 +161,7 @@ public class SevenStarPlayerMgr : MonoBehaviour
         player.m_UserSeat.InitData();
         player.m_IsInitPlaying = false;
         //yield return GetPlayerList(false);
-        TexasHoldemClient.Instance.Send_int(Protocols.RoomPlayerList, m_Logic.m_RoomIdx);
+        TexasHoldemClient.Instance.SendGetRoomInfo(m_Logic.m_RoomIdx);
         yield return null;
     }
 

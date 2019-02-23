@@ -172,6 +172,7 @@ public class LobbyLogic : UtilHalfSingleton<LobbyLogic>
 
     public void OnClick_BlindDropboxSelect(int type)
     {
+        Debug.Log("click:"+type);
         if (m_BlindDropboxDropped == null)
             return;
         m_BlindType = type;
@@ -356,6 +357,7 @@ public class LobbyLogic : UtilHalfSingleton<LobbyLogic>
         ParserLobby.RoomList roomcount = new ParserLobby.RoomList();
         roomcount.cou = 0;
         ParserLobby.GetRoomCount(obj, ref roomcount);
+        Debug.Log("room count:"+roomcount.cou);
         // Clear rooms if room count zero
         if (roomcount.cou == 0)
         {
@@ -383,7 +385,7 @@ public class LobbyLogic : UtilHalfSingleton<LobbyLogic>
 
         for (int i = 0; i < roomcount.cou; i++)
         {
-            m_Client.SendGetRoomInfo(blindType, roomcount.roomIds[i]);
+            m_Client.SendGetRoomInfo(roomcount.roomIds[i]);
 
             obj = null;
             while (obj == null)

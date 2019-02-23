@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public partial class TexasHoldemClient : ClientBase
@@ -62,6 +63,7 @@ public partial class TexasHoldemClient : ClientBase
                 if (m_PacketObject[i].protocol == protocol)
                 {
                     RecvPacketObject obj = m_PacketObject[i];
+                    Debug.Log("total packet:"+j+" remove packet:"+obj.protocol);
                     m_PacketObject.RemoveAt(i);
                     return obj;
                 }

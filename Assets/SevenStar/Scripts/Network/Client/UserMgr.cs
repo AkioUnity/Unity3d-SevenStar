@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class UserMgr
 {
@@ -44,6 +46,7 @@ public class UserMgr
                     return;
                 }
             }
+            Debug.Log("AddUser:"+info.UserIdx+"   count:"+m_UserList.Count);
             m_UserList.Add(info);
         }
     }
