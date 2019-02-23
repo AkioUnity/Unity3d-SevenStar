@@ -67,7 +67,7 @@ public partial class TexasHoldemClient
     public void SendOutRoom()
     {
         string str = "";
-        SendStr(Protocols.RoomOut, str);
+        //SendStr(Protocols.RoomOut, str);
     }
 
     public void SendBetting(UInt64 money)
@@ -208,7 +208,7 @@ public partial class TexasHoldemClient
     }
     public void SendLogOut()
     {
-        Send_int(Protocols.LogOut, ClientObject.Instance.m_UserIdx);
+//        Send_int(Protocols.LogOut, ClientObject.Instance.m_UserIdx);
     }
 
 }

@@ -69,13 +69,19 @@ public class SevenStarPlayerMgr : MonoBehaviour
             SceneManager.LoadSceneAsync("2_Lobby");
             yield break;
         }
-//        for (i = 0; i < UserList.cou; i++)
-//        {
-//            if (UserList[i] == -1)
-//                continue;
-//            c.SendGetUserInfo(UserList[i]);
-//        }
-//
+        j = UserList.memberCou;
+        int[] idxs = new int[j];
+        for (i = 0; i < UserList.memberCou; i++)
+        {
+            if (UserList.member[i].UserIdx <1)
+                continue;
+            idxs[i] = UserList.member[i].UserIdx;
+            if (UserList.member[i].UserIdx==m_MyPlayerIdx)
+                m_PlayerNum = i;
+            else
+                c.SendGetUserInfo(UserList.member[i].UserIdx);
+        }
+
 //        if (First)  // 난입시 처음 세팅 - 바닥패, 사용자 베팅정보;;
 //        {
 //            // 바닥패;
@@ -104,46 +110,34 @@ public class SevenStarPlayerMgr : MonoBehaviour
 //            }
 //        }
 //        
-//        int[] idxs = UserList.ToArray();
-//        j = idxs.Length;
-//
-//        // check my idx
-//        int playerCount = 0;
-//        m_MyPlayerIdx = ClientObject.Instance.m_UserIdx;
-//        for (i = 0; i < j; i++)
-//        {
-//            if (idxs[i] == m_MyPlayerIdx)
-//                m_PlayerNum = i;
-//            if (idxs[i] > -1)
-//                playerCount++;
-//        }
-//
-//        m_Logic.m_PlayerCount = 0;
-//        int playerSeatNum = 0;
-//        for (i = 0; i < j; i++)
-//        {
-//            // calculate player seat num
-//            playerSeatNum = (m_Players.Length - m_PlayerNum + i) % m_Players.Length;
-//
-//            // Set user to player seat
-//            m_Players[playerSeatNum].SetUserIndex(idxs[i]);
-//            int num= idxs[i] == -1 ? -1 : i; ;
-//            m_Players[playerSeatNum].SetNum(num);
-//            m_Players[playerSeatNum].m_UserSeat.m_SeatNum = num;
-//
-//            // Set player self
-//            if (idxs[i] == m_MyPlayerIdx)
-//                m_PlayerSelf = m_Players[playerSeatNum];
-//            if(idxs[i] != -1)
-//                m_Logic.m_PlayerCount++;
-//        }
-//
-//        // 난입시 플레이어 베팅 정보요청;
-//        if (First)
-//        {
-//            c.SendPlayInfo(SevenStarLogic.Instance.m_RoomIdx);
-//            m_Logic.Client.Send_int(Protocols.TestRoomInComplete, 0);
-//        }
+        
+        
+        m_Logic.m_PlayerCount = 0;
+        int playerSeatNum = 0;
+        for (i = 0; i < j; i++)
+        {
+            // calculate player seat num
+            playerSeatNum = (m_Players.Length - m_PlayerNum + i) % m_Players.Length;
+
+            // Set user to player seat
+            m_Players[playerSeatNum].SetUserIndex(idxs[i]);
+            int num= idxs[i] == -1 ? -1 : i; ;
+            m_Players[playerSeatNum].SetNum(num);
+            m_Players[playerSeatNum].m_UserSeat.m_SeatNum = num;
+
+            // Set player self
+            if (idxs[i] == m_MyPlayerIdx)
+                m_PlayerSelf = m_Players[playerSeatNum];
+            if(idxs[i] != -1)
+                m_Logic.m_PlayerCount++;
+        }
+
+        // 난입시 플레이어 베팅 정보요청;
+        if (First)
+        {
+            c.SendPlayInfo(SevenStarLogic.Instance.m_RoomIdx);
+            m_Logic.Client.Send_int(Protocols.TestRoomInComplete, 0);
+        }
         StartCoroutine(GetPlayerList(false));
         
     }

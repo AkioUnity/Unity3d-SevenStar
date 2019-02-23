@@ -79,7 +79,6 @@
               <e p="LobbyBottom.cs" t="Include" />
               <e p="LobbyBottomBtnAction.cs" t="Include" />
               <e p="LobbyLogic.cs" t="Include" />
-              <e p="LobbyLogic_back.cs" t="Include" />
               <e p="LobbyPanels.cs" t="Include" />
               <e p="LobbyRoomData.cs" t="Include" />
               <e p="MessageBox.cs" t="Include" />

@@ -172,7 +172,7 @@ public class LobbyLogic : UtilHalfSingleton<LobbyLogic>
 
     public void OnClick_BlindDropboxSelect(int type)
     {
-        Debug.Log("click:"+type);
+//        Debug.Log("click:"+type);
         if (m_BlindDropboxDropped == null)
             return;
         m_BlindType = type;

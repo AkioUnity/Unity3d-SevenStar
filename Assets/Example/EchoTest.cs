@@ -9,7 +9,7 @@ public class EchoTest : MonoBehaviour {
 		Debug.Log("start");
 		yield return StartCoroutine(ws.Connect());
 		Debug.Log("connect");
-		ws.SendString("<protocol>roomidxlist</protocol><blindtype>1</blindtype>");
+		ws.SendString("<protocol>roomout</protocol><id>78</id>");
 		int i=0;
 		while (true)
 		{

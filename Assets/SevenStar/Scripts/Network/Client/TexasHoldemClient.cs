@@ -45,9 +45,15 @@ public partial class TexasHoldemClient : ClientBase
 
     void AddPacketObject(RecvPacketObject obj)
     {
-        if (obj == null) return;
+        if (obj == null)
+        {
+            Debug.LogWarning("obj null");
+            return;
+        }
+//        Debug.Log("add Object:"+obj.protocol);
         lock (m_PacketLock)
         {
+//            Debug.Log("locked add Object:"+obj.protocol);
             m_PacketObject.Add(obj);
         }
     }
@@ -77,6 +83,7 @@ public partial class TexasHoldemClient : ClientBase
     {
         try
         {
+//            Debug.Log("RecvDataWork:"+data.protocol);
             AddPacketObject(m_PacketParser.Parser((Protocols)data.protocol, data.data));
             if (m_OnRecvData != null)
                 m_OnRecvData((Protocols)data.protocol, data.data);

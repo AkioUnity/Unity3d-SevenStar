@@ -89,6 +89,7 @@ public class ClientBase
     
     static public void Log(string logMessage)
     {
+        Debug.LogWarning(logMessage);
         if (LogFunc == null)
             return;
         LogFunc(logMessage);
@@ -187,19 +188,20 @@ public class ClientBase
 
     RecvData GetRecvData()
     {
-            try
+        try
+        {
+            while (m_RecvData.Count > 0)
             {
-                while (m_RecvData.Count > 0)
-                {
-                    RecvData d = m_RecvData[0];
-                    m_RecvData.RemoveAt(0);
-                    return d;
-                }
+                RecvData d = m_RecvData[0];
+                m_RecvData.RemoveAt(0);
+//                Debug.Log("RecvData:"+d.protocol);
+                return d;
             }
-            catch(Exception e)
-            {
-                Log(e.ToString());
-            }
+        }
+        catch(Exception e)
+        {
+            Log(e.ToString());
+        }
         return null;
     }
 

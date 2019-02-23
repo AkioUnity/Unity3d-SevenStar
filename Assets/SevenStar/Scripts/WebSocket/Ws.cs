@@ -66,8 +66,8 @@ public class Ws : MonoBehaviour
     }
     public void Receive(string res)
     {
-        Debug.Log("Received:"+queueCn+":"+ res);
         queueCn--;
+        Debug.Log("Received:"+queueCn+":"+ res);
         TexasHoldemClient c = TexasHoldemClient.Instance;
         res = "<xml>" + res + "</xml>";
         string protocol = TinyXmlReader.GetProtocol(res);

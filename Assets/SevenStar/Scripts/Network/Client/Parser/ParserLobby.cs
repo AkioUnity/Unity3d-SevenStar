@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using UnityEngine;
 
@@ -75,56 +76,39 @@ public class ParserLobby : ParserBase
 
     object RecvRoomData()  //roominfo
     {
-        if (dic.ContainsKey("roominfo"))
-        {
-            Debug.LogWarning(dic["roominfo"]);
-        }
-        if (dic.ContainsKey("roominfo-name"))
-        {
-            Debug.LogWarning(dic["roominfo-name"]);
-        }
-        if (dic.ContainsKey("user0-seat"))
-        {
-            Debug.LogWarning(dic["user0-seat"]);
-        }
-        if (dic.ContainsKey("user1-seat"))
-        {
-            Debug.LogWarning(dic["user1-seat"]);
-        }
-
-//        RoomInfo_Robby info = new RoomInfo_Robby();
-//        info.idx = p.GetInt();
-//        info.name = p.GetString();
+        RoomInfo_Robby info = new RoomInfo_Robby();
+        info.idx =Int32.Parse(dic["roominfo-idx"]);
+        info.name = dic["roominfo-name"];
 //        info.blindType = p.GetInt();
-//        info.cou = p.GetInt();
-//        info.memberCou = 0;
-//        info.reader = null;
-//        if (info.cou > 0)
+        info.cou = Int32.Parse(dic["roominfo-seatcou"]);
+        info.memberCou = Int32.Parse(dic["roominfo-usercou"]);
+        info.reader = null;
+//        Dictionary<string, string>.KeyCollection keyColl =dic.Keys;
+//        foreach( string s in keyColl )
 //        {
-//            info.member = new UserInfo[info.cou];
-//            for (int i = 0; i < info.cou; i++)
-//            {
-//                byte len = p.GetByte();
-//                if (len > 0)
-//                {
-//                    UserInfo ui = new UserInfo();
-//                    ui.SetDataBytes(data, p.pos);
-//                    p.pos += len;
-//                    info.member[i] = ui;
-//                    info.memberCou++;
-//                    if (info.reader == null)
-//                        info.reader = ui;
-//
-//                }
-//                else
-//                {
-//                    info.member[i] = null;
-//                }
-//            }
-//
+//            Debug.Log(s+":"+dic[s]);
 //        }
-//        return info;
-        return null;
+//        
+        if (info.memberCou> 0)
+        {
+            info.member = new UserInfo[info.cou];
+            for (int i = 0; i < info.memberCou; i++)
+            {
+                UserInfo ui = new UserInfo();
+                string key = "user" + i + "-idx";
+//                Debug.Log(key);
+                ui.UserIdx = Int32.Parse(dic[key]);
+                ui.UserMoney = Convert.ToUInt64(dic["user"+i+"-money"]);
+                ui.Avatar = Int32.Parse(dic["user"+i+"-avatar"]);
+                ui.UserName = dic["user"+i+"-nick"];
+                info.member[i] = ui;
+                if (info.reader == null)
+                    info.reader = ui;
+            }
+
+        }
+//        Debug.Log("RecvRoomData:"+info.name);
+        return info;
     }
 
     object RecvRoomCreate()  //return roomID
